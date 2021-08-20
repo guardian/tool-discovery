@@ -59,7 +59,7 @@ export const fetchToolsDataFromGithub = async (): Promise<ToolsData> => {
 const queryNodeToToolData = (
   queryNode: GraphQLResponse["data"]["search"]["edges"][number]
 ): { name: string; toolData: ToolData } => {
-  const toolData: ToolData = JSON.parse(queryNode.node.object!);
+  const toolData: ToolData = JSON.parse(queryNode.node.object?.text!);
   return {
     name: getNormalisedToolName(queryNode.node.nameWithOwner, toolData.name),
     toolData,

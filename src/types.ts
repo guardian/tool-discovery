@@ -19,7 +19,7 @@ export interface GraphQLResponse {
       edges: Array<{
         node: {
           nameWithOwner: string;
-          object: null | string;
+          object: null | { text: string };
         };
       }>;
     };
