@@ -1,0 +1,5 @@
+{
+  "name": "Tools Discovery",
+  "description": "Discovers tools in the Guardian organisation",
+  "awsAccount": "dev-play"
+}
