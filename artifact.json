@@ -1,0 +1,11 @@
+{
+  "projectName": "tool-discovery::tool-discovery-lambda",
+  "vcsURL": "https://github.com/guardian/tool-discovery",
+  "actions": [
+    {
+      "action": "tool-discovery-lambda",
+      "path": "dist/tool-discovery-lambda",
+      "compress": "zip"
+    }
+  ]
+}

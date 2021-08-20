@@ -4,4 +4,4 @@ import * as cdk from "@aws-cdk/core";
 import { ToolDiscoveryLambdaStack } from "../lib/tool-discovery-lambda-stack";
 
 const app = new cdk.App();
-new ToolDiscoveryLambdaStack(app, "TelemetryStack");
+new ToolDiscoveryLambdaStack(app, "ToolDiscoveryLambdaStack");

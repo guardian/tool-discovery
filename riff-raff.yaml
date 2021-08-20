@@ -1,0 +1,11 @@
+stacks: [tool-discovery]
+regions: [eu-west-1]
+deployments:
+    tool-discovery-lambda:
+        type: aws-lambda
+        parameters:
+            prefixStack: false
+            bucket: developer-playground-dist
+            fileName: tool-discovery-lambda.zip
+            functionNames:
+                [tool-discovery-lambda-]

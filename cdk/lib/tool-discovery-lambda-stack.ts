@@ -2,19 +2,14 @@ import {
   Stack,
   Construct,
   StackProps,
-  CfnOutput,
   Duration,
   Tag,
   CfnParameter,
   RemovalPolicy,
 } from "@aws-cdk/core";
-import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as s3 from "@aws-cdk/aws-s3";
-import * as s3n from "@aws-cdk/aws-s3-notifications";
-import * as kinesis from "@aws-cdk/aws-kinesis";
 import * as iam from "@aws-cdk/aws-iam";
-import * as acm from "@aws-cdk/aws-certificatemanager";
 import { BucketEncryption, BlockPublicAccess, Bucket } from "@aws-cdk/aws-s3";
 
 export class ToolDiscoveryLambdaStack extends Stack {
@@ -58,8 +53,8 @@ export class ToolDiscoveryLambdaStack extends Stack {
 
     const deployBucket = s3.Bucket.fromBucketName(
       this,
-      "composer-dist",
-      "composer-dist"
+      "developer-playground-dist",
+      "developer-playground-dist"
     );
 
     const commonLambdaParams = {
