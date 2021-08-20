@@ -8,6 +8,5 @@ export interface ToolDescription {
 }
 
 export interface ToolsData {
-  updatedOn: string;
   data: { [toolKey: string]: ToolDescription };
 }

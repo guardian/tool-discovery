@@ -2,7 +2,7 @@ import { APIGatewayProxyResult } from "aws-lambda";
 import { toolDiscoveryBucketName } from "./constants";
 
 import { createOkResponse } from "./response";
-import { writeToolDataToS3 } from "./util";
+import { putToolData } from "./util";
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   const toolData = {
@@ -14,7 +14,7 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
     },
   };
 
-  await writeToolDataToS3(toolData);
+  await putToolData(toolData);
 
   return {
     statusCode: 201,

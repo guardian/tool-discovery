@@ -3,6 +3,7 @@ import { handler } from "../index";
 import { s3 } from "../aws";
 import { toolDiscoveryBucketName } from "../constants";
 import { getToolData } from "../util";
+import { createOkResponse } from "../response";
 
 jest.mock("uuid", () => ({
   v4: () => "mock-uuid",
@@ -37,11 +38,25 @@ describe("s3 event handler", () => {
   it("should read s3 files from the given event, and reject them if they're malformed", async () => {
     const lambdaResponse = await handler();
 
-    const expectedResponse = JSON.stringify({ example: "response" });
+    const expectedResponse = JSON.stringify(
+      createOkResponse(
+        `Tool descriptions have been persisted to ${toolDiscoveryBucketName}`
+      )
+    );
     expect(lambdaResponse.statusCode).toBe(201);
     expect(lambdaResponse.body).toEqual(expectedResponse);
 
     const writtenToolData = await getToolData();
-    expect(writtenToolData).toBe({});
+    expect(writtenToolData).toEqual({
+      error: {
+        data: {
+          exampleTool: {
+            description: "Example description",
+            name: "Example tool",
+          },
+        },
+      },
+      value: undefined,
+    });
   });
 });
