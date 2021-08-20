@@ -10,6 +10,7 @@ import {
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as s3 from "@aws-cdk/aws-s3";
 import * as iam from "@aws-cdk/aws-iam";
+import { StringParameter } from "@aws-cdk/aws-ssm";
 import { BucketEncryption, BlockPublicAccess, Bucket } from "@aws-cdk/aws-s3";
 
 export class ToolDiscoveryLambdaStack extends Stack {
@@ -30,16 +31,26 @@ export class ToolDiscoveryLambdaStack extends Stack {
       description: "Stage",
     });
 
+    const ghTokenParameter = StringParameter.fromStringParameterAttributes(
+      this,
+      "GithubToken",
+      {
+        version: 1,
+        parameterName: `/${stageParameter.valueAsString}/${stackParameter.valueAsString}/tool-discovery/github-token`,
+        simpleName: true,
+      }
+    );
+
     /**
      * S3 bucket – where our tools data is persisted
      */
 
     const toolDiscoveryDataBucket = new Bucket(
       this,
-      "tools-discovery-data-bucket",
+      "tool-discovery-data-bucket",
       {
         versioned: false,
-        bucketName: "tools-discovery-data",
+        bucketName: "tool-discovery-data",
         encryption: BucketEncryption.KMS_MANAGED,
         publicReadAccess: false,
         blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
@@ -70,16 +81,17 @@ export class ToolDiscoveryLambdaStack extends Stack {
         environment: {
           STAGE: stageParameter.valueAsString,
           STACK: stackParameter.valueAsString,
-          APP: "tools-discovery",
+          APP: "tool-discovery",
           TOOLS_DISCOVERY_BUCKET_NAME: toolDiscoveryDataBucket.bucketName,
+          GH_TOKEN: ghTokenParameter.stringValue,
         },
-        functionName: `tools-discovery-lambda-${stageParameter.valueAsString}`,
+        functionName: `tool-discovery-lambda-${stageParameter.valueAsString}`,
         code: lambda.Code.bucket(
           deployBucket,
-          `${stackParameter.valueAsString}/${stageParameter.valueAsString}/tools-discovery-lambda/tools-discovery-lambda.zip`
+          `${stackParameter.valueAsString}/${stageParameter.valueAsString}/tool-discovery-lambda/tool-discovery-lambda.zip`
         ),
       });
-      Tag.add(fn, "App", "tools-discovery");
+      Tag.add(fn, "App", "tool-discovery");
       Tag.add(fn, "Stage", stageParameter.valueAsString);
       Tag.add(fn, "Stack", stackParameter.valueAsString);
       return fn;
