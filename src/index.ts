@@ -14,7 +14,9 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
     statusCode: 201,
     body: JSON.stringify(
       createOkResponse(
-        `Tool descriptions have been persisted to ${toolDiscoveryBucketName}`
+        `Tool descriptions have been persisted to ${toolDiscoveryBucketName}. Total tools: ${
+          Object.keys(toolData.data).length
+        } `
       )
     ),
   };
