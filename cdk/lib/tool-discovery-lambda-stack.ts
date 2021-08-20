@@ -76,14 +76,14 @@ export class ToolDiscoveryLambdaStack extends Stack {
       const fn = new lambda.Function(this, `ToolsDiscoveryLambda`, {
         runtime: lambda.Runtime.NODEJS_14_X,
         memorySize: 128,
-        timeout: Duration.seconds(5),
+        timeout: Duration.seconds(120),
         handler: "index.handler",
         environment: {
           STAGE: stageParameter.valueAsString,
           STACK: stackParameter.valueAsString,
           APP: "tool-discovery",
           TOOLS_DISCOVERY_BUCKET_NAME: toolDiscoveryDataBucket.bucketName,
-          GH_TOKEN: ghTokenParameter.stringValue,
+          GITHUB_TOKEN: ghTokenParameter.stringValue,
         },
         functionName: `tool-discovery-lambda-${stageParameter.valueAsString}`,
         code: lambda.Code.bucket(

@@ -4,7 +4,7 @@ import { ghToken } from "./constants";
 import { GraphQLResponse, ToolData, ToolsData } from "./types";
 
 const getRepoQuery = (cursor: string | undefined) => `{
-  search(query: "org:guardian", type: REPOSITORY, first: 10${
+  search(query: "org:guardian", type: REPOSITORY, first: 100${
     cursor ? `, after: "${cursor}"` : ""
   }) {
     codeCount
