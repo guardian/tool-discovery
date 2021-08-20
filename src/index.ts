@@ -3,16 +3,10 @@ import { toolDiscoveryBucketName } from "./constants";
 
 import { createOkResponse } from "./response";
 import { putToolData } from "./util";
+import { fetchToolsDataFromGithub } from "./gh";
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
-  const toolData = {
-    data: {
-      exampleTool: {
-        name: "Example tool",
-        description: "Example description",
-      },
-    },
-  };
+  const toolData = await fetchToolsDataFromGithub();
 
   await putToolData(toolData);
 

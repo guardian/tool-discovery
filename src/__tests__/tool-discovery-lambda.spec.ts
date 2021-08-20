@@ -1,5 +1,7 @@
-import { handler } from "../index";
+import nock from "nock";
 
+import { ghResponse1, ghResponse2 } from "./fixtures";
+import { handler } from "../index";
 import { s3 } from "../aws";
 import { toolDiscoveryBucketName } from "../constants";
 import { getToolData } from "../util";
@@ -36,6 +38,9 @@ describe("s3 event handler", () => {
   });
 
   it("should read s3 files from the given event, and reject them if they're malformed", async () => {
+    nock("https://api.github.com").post("/graphql").reply(200, ghResponse1);
+    nock("https://api.github.com").post("/graphql").reply(200, ghResponse2);
+
     const lambdaResponse = await handler();
 
     const expectedResponse = JSON.stringify(
@@ -47,16 +52,17 @@ describe("s3 event handler", () => {
     expect(lambdaResponse.body).toEqual(expectedResponse);
 
     const writtenToolData = await getToolData();
-    expect(writtenToolData).toEqual({
-      error: {
-        data: {
-          exampleTool: {
-            description: "Example description",
-            name: "Example tool",
-          },
+    expect(writtenToolData.value).toEqual({
+      data: {
+        "guardian/project1/Project_1": {
+          description: "An example project 1",
+          name: "Project 1",
+        },
+        "guardian/project3/Project_2": {
+          description: "An example project 2",
+          name: "Project 2",
         },
       },
-      value: undefined,
     });
   });
 });

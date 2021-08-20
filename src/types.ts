@@ -1,12 +1,27 @@
 export type Either<Left, Right> =
-  | { value: Left; error: undefined }
-  | { error: Right; value: undefined };
+  | { value: Right; error: undefined }
+  | { error: Left; value: undefined };
 
-export interface ToolDescription {
+export interface ToolData {
   name: string;
   description: string;
 }
 
 export interface ToolsData {
-  data: { [toolKey: string]: ToolDescription };
+  data: { [toolKey: string]: ToolData };
+}
+
+export interface GraphQLResponse {
+  data: {
+    search: {
+      codeCount: number;
+      pageInfo: { endCursor: string; hasNextPage: boolean };
+      edges: Array<{
+        node: {
+          nameWithOwner: string;
+          object: null | string;
+        };
+      }>;
+    };
+  };
 }
