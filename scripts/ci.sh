@@ -6,7 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR=${DIR}/..
 
 LAMDBA_DIR="$ROOT_DIR/src"
-LAMBDA_BUCKET_NAME=tool-discovery-data-bucket
+LAMBDA_BUCKET_NAME=tool-discovery-data
 
 function setupToolDiscoveryLambda {
   cd $LAMDBA_DIR
