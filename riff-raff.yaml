@@ -1,4 +1,4 @@
-stacks: [tool-discovery]
+stacks: [playground]
 regions: [eu-west-1]
 deployments:
     tool-discovery-lambda:

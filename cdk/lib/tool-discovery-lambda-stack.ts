@@ -57,19 +57,6 @@ export class ToolDiscoveryLambdaStack extends Stack {
       "developer-playground-dist"
     );
 
-    const commonLambdaParams = {
-      runtime: lambda.Runtime.NODEJS_12_X,
-      memorySize: 128,
-      timeout: Duration.seconds(5),
-      handler: "index.handler",
-      environment: {
-        STAGE: stageParameter.valueAsString,
-        STACK: stackParameter.valueAsString,
-        APP: "tools-discovery",
-        TOOLS_DISCOVERY_BUCKET_NAME: toolDiscoveryDataBucket.bucketName,
-      },
-    };
-
     /**
      * API Lambda
      */
